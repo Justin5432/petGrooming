@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>寵物美容預約系統</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Microsoft JhengHei', Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #ff6b6b !important;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #ff6b6b;
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+        }
+        .btn-primary {
+            background-color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        .btn-primary:hover {
+            background-color: #ff5252;
+            border-color: #ff5252;
+        }
+        .tab-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 15px 15px;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #ff6b6b;
+            color: white;
+            border-color: #ff6b6b;
+        }
+        .nav-tabs .nav-link {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">寵物美容預約系統</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">登入</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">註冊</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主內容區 -->
+    <div class="container mt-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button">首頁</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="services-tab" data-bs-toggle="tab" data-bs-target="#services" type="button">服務項目</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="booking-tab" data-bs-toggle="tab" data-bs-target="#booking" type="button">預約服務</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="schedule-tab" data-bs-toggle="tab" data-bs-target="#schedule" type="button">美容師班表</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button">歷史紀錄</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="recharge-tab" data-bs-toggle="tab" data-bs-target="#recharge" type="button">儲值金加值</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <!-- 首頁 -->
+            <div class="tab-pane fade show active" id="home" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>歡迎來到寵物美容預約系統</h5>
+                            </div>
+                            <div class="card-body">
+                                <p>我們提供專業的寵物美容服務，讓您的毛小孩擁有最佳的照顧體驗。</p>
+                                <p>功能包括：</p>
+                                <ul>
+                                    <li>會員註冊與管理</li>
+                                    <li>線上預約服務</li>
+                                    <li>美容師班表查詢</li>
+                                    <li>服務項目管理</li>
+                                    <li>儲值金加值</li>
+                                    <li>歷史服務紀錄查詢</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>最新公告</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info">
+                                    <strong>系統更新</strong> - 新增美容師班表提交功能
+                                </div>
+                                <div class="alert alert-warning">
+                                    <strong>優惠活動</strong> - 本月儲值金加值享5%回饋
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 服務項目 -->
+            <div class="tab-pane fade" id="services" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>服務項目列表</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>服務名稱</th>
+                                            <th>價格</th>
+                                            <th>所需時間</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="serviceList">
+                                        <tr>
+                                            <td>基礎美容</td>
+                                            <td>$800</td>
+                                            <td>1小時</td>
+                                            <td><button class="btn btn-sm btn-danger">刪除</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>豪華美容</td>
+                                            <td>$1500</td>
+                                            <td>2小時</td>
+                                            <td><button class="btn btn-sm btn-danger">刪除</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>新增服務項目</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="addServiceForm">
+                                    <div class="mb-3">
+                                        <label for="serviceName" class="form-label">服務名稱</label>
+                                        <input type="text" class="form-control" id="serviceName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="servicePrice" class="form-label">價格</label>
+                                        <input type="number" class="form-control" id="servicePrice" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="serviceDuration" class="form-label">所需時間 (分鐘)</label>
+                                        <input type="number" class="form-control" id="serviceDuration" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="serviceDescription" class="form-label">服務描述</label>
+                                        <textarea class="form-control" id="serviceDescription" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">新增服務</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 預約服務 -->
+            <div class="tab-pane fade" id="booking" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>預約美容服務</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="bookingForm">
+                                    <div class="mb-3">
+                                        <label for="bookingPet" class="form-label">寵物名稱</label>
+                                        <input type="text" class="form-control" id="bookingPet" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="bookingService" class="form-label">服務項目</label>
+                                        <select class="form-select" id="bookingService" required>
+                                            <option value="">請選擇服務項目</option>
+                                            <option value="1">基礎美容 - $800</option>
+                                            <option value="2">豪華美容 - $1500</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="bookingStylist" class="form-label">美容師</label>
+                                        <select class="form-select" id="bookingStylist" required>
+                                            <option value="">請選擇美容師</option>
+                                            <option value="1">王美容師</option>
+                                            <option value="2">李美容師</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="bookingDate" class="form-label">預約日期</label>
+                                        <input type="date" class="form-control" id="bookingDate" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="bookingTime" class="form-label">預約時間</label>
+                                        <select class="form-select" id="bookingTime" required>
+                                            <option value="">請選擇時間</option>
+                                            <option value="09:00">09:00</option>
+                                            <option value="10:00">10:00</option>
+                                            <option value="11:00">11:00</option>
+                                            <option value="13:00">13:00</option>
+                                            <option value="14:00">14:00</option>
+                                            <option value="15:00">15:00</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="bookingNotes" class="form-label">備註</label>
+                                        <textarea class="form-control" id="bookingNotes" rows="3"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">提交預約</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>我的預約</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>時間</th>
+                                            <th>服務</th>
+                                            <th>美容師</th>
+                                            <th>狀態</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="myBookings">
+                                        <tr>
+                                            <td>2023-06-15</td>
+                                            <td>10:00</td>
+                                            <td>豪華美容</td>
+                                            <td>王美容師</td>
+                                            <td>已確認</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 美容師班表 -->
+            <div class="tab-pane fade" id="schedule" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>美容師班表查詢</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="scheduleQueryForm">
+                                    <div class="mb-3">
+                                        <label for="scheduleStylist" class="form-label">美容師</label>
+                                        <select class="form-select" id="scheduleStylist">
+                                            <option value="">全部美容師</option>
+                                            <option value="1">王美容師</option>
+                                            <option value="2">李美容師</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="scheduleDate" class="form-label">日期範圍</label>
+                                        <div class="input-group">
+                                            <input type="date" class="form-control" id="scheduleStartDate">
+                                            <span class="input-group-text">至</span>
+                                            <input type="date" class="form-control" id="scheduleEndDate">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">查詢班表</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>美容師班表提交</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="submitScheduleForm">
+                                    <div class="mb-3">
+                                        <label for="stylistId" class="form-label">美容師ID</label>
+                                        <input type="text" class="form-control" id="stylistId" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="stylistName" class="form-label">美容師姓名</label>
+                                        <input type="text" class="form-control" id="stylistName" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="availableDate" class="form-label">可預約日期</label>
+                                        <input type="date" class="form-control" id="availableDate" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">可預約時段</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="time9" value="09:00">
+                                            <label class="form-check-label" for="time9">09:00-10:00</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="time10" value="10:00">
+                                            <label class="form-check-label" for="time10">10:00-11:00</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="time11" value="11:00">
+                                            <label class="form-check-label" for="time11">11:00-12:00</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="time13" value="13:00">
+                                            <label class="form-check-label" for="time13">13:00-14:00</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="time14" value="14:00">
+                                            <label class="form-check-label" for="time14">14:00-15:00</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="time15" value="15:00">
+                                            <label class="form-check-label" for="time15">15:00-16:00</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">提交班表</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>班表查詢結果</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="scheduleCalendar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 歷史紀錄 -->
+            <div class="tab-pane fade" id="history" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>查詢歷史服務紀錄</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="historyQueryForm">
+                                    <div class="mb-3">
+                                        <label for="customerAccount" class="form-label">會員帳號</label>
+                                        <input type="text" class="form-control" id="customerAccount" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="customerName" class="form-label">會員姓名</label>
+                                        <input type="text" class="form-control" id="customerName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="historyMonth" class="form-label">查詢月份</label>
+                                        <input type="month" class="form-control" id="historyMonth" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">查詢紀錄</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>歷史服務紀錄</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>服務項目</th>
+                                            <th>美容師</th>
+                                            <th>金額</th>
+                                            <th>評價</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="historyRecords">
+                                        <tr>
+                                            <td>2023-05-10</td>
+                                            <td>基礎美容</td>
+                                            <td>王美容師</td>
+                                            <td>$800</td>
+                                            <td>★★★★☆</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-05-25</td>
+                                            <td>豪華美容</td>
+                                            <td>李美容師</td>
+                                            <td>$1500</td>
+                                            <td>★★★★★</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 儲值金加值 -->
+            <div class="tab-pane fade" id="recharge" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>儲值金加值</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="rechargeForm">
+                                    <div class="mb-3">
+                                        <label for="memberAccount" class="form-label">會員帳號</label>
+                                        <input type="text" class="form-control" id="memberAccount" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="memberName" class="form-label">會員姓名</label>
+                                        <input type="text" class="form-control" id="memberName" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="rechargeAmount" class="form-label">加值金額</label>
+                                        <input type="number" class="form-control" id="rechargeAmount" min="100" step="100" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="paymentMethod" class="form-label">付款方式</label>
+                                        <select class="form-select" id="paymentMethod" required>
+                                            <option value="">請選擇付款方式</option>
+                                            <option value="credit">信用卡</option>
+                                            <option value="linepay">LINE Pay</option>
+                                            <option value="transfer">銀行轉帳</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">確認加值</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>儲值紀錄</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>日期</th>
+                                            <th>金額</th>
+                                            <th>付款方式</th>
+                                            <th>狀態</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rechargeHistory">
+                                        <tr>
+                                            <td>2023-05-01</td>
+                                            <td>$1000</td>
+                                            <td>信用卡</td>
+                                            <td>已完成</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2023-05-15</td>
+                                            <td>$2000</td>
+                                            <td>LINE Pay</td>
+                                            <td>已完成</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登入模態框 -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">會員登入</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginAccount" class="form-label">帳號</label>
+                            <input type="text" class="form-control" id="loginAccount" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">密碼</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">記住我</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">登入</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 註冊模態框 -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">會員註冊</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="registerTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="customer-tab" data-bs-toggle="tab" data-bs-target="#customerRegister" type="button">顧客註冊</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="stylist-tab" data-bs-toggle="tab" data-bs-target="#stylistRegister" type="button">美容師註冊</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-3" id="registerTabContent">
+                        <div class="tab-pane fade show active" id="customerRegister" role="tabpanel">
+                            <form id="customerRegisterForm">
+                                <div class="mb-3">
+                                    <label for="customerUsername" class="form-label">帳號</label>
+                                    <input type="text" class="form-control" id="customerUsername" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="customerPassword" class="form-label">密碼</label>
+                                    <input type="password" class="form-control" id="customerPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="customerName" class="form-label">姓名</label>
+                                    <input type="text" class="form-control" id="customerName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="customerPhone" class="form-label">電話</label>
+                                    <input type="tel" class="form-control" id="customerPhone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="customerEmail" class="form-label">電子郵件</label>
+                                    <input type="email" class="form-control" id="customerEmail" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">註冊會員</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="stylistRegister" role="tabpanel">
+                            <form id="stylistRegisterForm">
+                                <div class="mb-3">
+                                    <label for="stylistUsername" class="form-label">帳號</label>
+                                    <input type="text" class="form-control" id="stylistUsername" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stylistPassword" class="form-label">密碼</label>
+                                    <input type="password" class="form-control" id="stylistPassword" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stylistName" class="form-label">姓名</label>
+                                    <input type="text" class="form-control" id="stylistName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stylistPhone" class="form-label">電話</label>
+                                    <input type="tel" class="form-control" id="stylistPhone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stylistEmail" class="form-label">電子郵件</label>
+                                    <input type="email" class="form-control" id="stylistEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stylistExperience" class="form-label">美容經驗 (年)</label>
+                                    <input type="number" class="form-control" id="stylistExperience" min="0" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stylistSpecialty" class="form-label">專長</label>
+                                    <textarea class="form-control" id="stylistSpecialty" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">註冊美容師</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 這裡可以添加JavaScript代碼來處理表單提交和交互邏輯
+        document.addEventListener('DOMContentLoaded', function() {
+            // 登入表單提交
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('登入功能將在後端實現');
+                // 這裡可以添加AJAX請求來處理登入
+            });
+
+            // 顧客註冊表單提交
+            document.getElementById('customerRegisterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('顧客註冊功能將在後端實現');
+                // 這裡可以添加AJAX請求來處理註冊
+            });
+
+            // 美容師註冊表單提交
+            document.getElementById('stylistRegisterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('美容師註冊功能將在後端實現');
+                // 這裡可以添加AJAX請求來處理註冊
+            });
+
+            // 其他表單的提交處理可以類似地添加
+        });
+    </script>
+</body>
+</html>

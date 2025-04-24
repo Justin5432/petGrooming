@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>寵物美容預約系統 | 毛孩的專業美容管家</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF7E7E;
+            --secondary-color: #FFB6B6;
+            --accent-color: #FFD1D1;
+            --dark-color: #4E4E4E;
+            --light-color: #FFF9F9;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--light-color) 0%, #f8f0f0 100%);
+            min-height: 100vh;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: none;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .card-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color) 0%, rgba(255, 255, 255, 0.5) 100%);
+        }
+
+        .card-body {
+            padding: 1.75rem;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            padding-left: 1.5rem;
+        }
+
+        .alert:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            color: #0c6b9d;
+        }
+
+        .alert-warning {
+            background-color: #fff8e6;
+            color: #b37b00;
+        }
+
+        ul {
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        h5 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(255, 126, 126, 0.2);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background-color: rgba(255, 182, 182, 0.1);
+        }
+
+        .feature-content h6 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--dark-color);
+        }
+
+        .feature-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .pet-paw {
+            position: absolute;
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .paw-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 8rem;
+            transform: rotate(15deg);
+        }
+
+        .paw-2 {
+            bottom: 15%;
+            right: 5%;
+            font-size: 10rem;
+            transform: rotate(-10deg);
+        }
+    </style>
+
+<body>
+
+    <!-- 導航列 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <!-- 品牌標誌 -->
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-paw me-2" style="color: #FF7E7E;"></i>
+                <span style="color: #FF7E7E;">Paw</span><span style="color: #4E4E4E;">Style</span>
+            </a>
+
+            <!-- 手機版漢堡按鈕 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 導航內容 -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> 首頁</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt me-1"></i> 預約服務</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cut me-1"></i> 服務項目</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-tie me-1"></i> 美容師</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-history me-1"></i> 歷史紀錄</a>
+                    </li>
+                </ul>
+
+                <!-- 登入/註冊區域 -->
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <a href="#" class="text-decoration-none dropdown-toggle" id="languageDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-globe me-1"></i> 繁體中文
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">繁體中文</a></li>
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">日本語</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="btn btn-outline-primary btn-sm dropdown-toggle" id="userDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> 會員登入
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt me-2"></i>登入帳號</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus me-2"></i>註冊會員</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>幫助中心</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="container my-5">
+        <h2 class="text-center mb-4 animate__animated animate__fadeInDown">
+            <i class="fas fa-cut me-2" style="color: var(--primary-color);"></i>我們的服務項目
+        </h2>
+
+        <p class="text-center mb-5 welcome-text animate__animated animate__fadeInUp animate-delay-1">
+            這裡列出了我們提供的所有專業寵物美容服務，讓毛孩都能水噹噹！
+        </p>
+
+        <div class="row">
+            <div class="col-lg-8 mb-4 animate__animated animate__fadeInLeft animate-delay-1">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-list me-2"></i> 目前提供的服務
+                    </div>
+                    <div class="card-body">
+                        <h5>服務清單</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                基礎洗澡美容 (小型犬)
+                                <span class="badge bg-primary rounded-pill">$500</span>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> 刪除
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                全身造型修剪 (中型犬)
+                                <span class="badge bg-primary rounded-pill">$1200</span>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> 刪除
+                                    </button>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                貓咪溫泉SPA
+                                <span class="badge bg-primary rounded-pill">$800</span>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i> 刪除
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="alert alert-info mt-4" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>
+                            請注意：以上價格為參考，實際費用可能因寵物體型、毛髮狀況而異。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 animate__animated animate__fadeInRight animate-delay-2">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-plus-circle me-2"></i> 新增服務項目(僅限美容師)
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="serviceName" class="form-label">服務名稱</label>
+                                <input type="text" class="form-control" id="serviceName" placeholder="例如：指甲修剪">
+                            </div>
+                            <div class="mb-3">
+                                <label for="servicePrice" class="form-label">價格 ($)</label>
+                                <input type="number" class="form-control" id="servicePrice" placeholder="例如：150">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100"
+                                style="background-color: var(--primary-color); border-color: var(--primary-color);">
+                                <i class="fas fa-plus me-2"></i>確認新增
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-calendar-check me-2"></i> 美容師班表查詢
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3">
+                            您可以根據特定日期查詢班表，或快速查看最近三個可預約班次。
+                        </p>
+
+                        <div class="mb-4">
+                            <h6><i class="fas fa-calendar-day me-1"></i> 按日期查詢</h6>
+                            <div class="input-group">
+                                <input type="date" class="form-control" id="queryDate">
+                                <button class="btn btn-outline-primary" type="button" id="button-query-date">
+                                    查詢
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h6><i class="fas fa-forward me-1"></i> 查看最近三個班次</h6>
+                            <button class="btn btn-primary w-100" type="button" id="button-query-recent"
+                                style="background-color: var(--secondary-color); border-color: var(--secondary-color);">
+                                <i class="fas fa-search me-2"></i> 查詢最近班表
+                            </button>
+                        </div>
+
+                        <div>
+                            <h6><i class="fas fa-table me-1"></i> 查詢結果 (範例)</h6>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">美容師</th>
+                                        <th scope="col">專長</th>
+                                        <th scope="col">日期</th>
+                                        <th scope="col">班次</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">001</th>
+                                        <td>陳小美</td>
+                                        <td>狗狗洗護</td>
+                                        <td>2025-04-25</td>
+                                        <td>早上 09:00-12:00</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">002</th>
+                                        <td>林大衛</td>
+                                        <td>貓咪造型</td>
+                                        <td>2025-04-25</td>
+                                        <td>下午 13:00-16:00</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">003</th>
+                                        <td>張阿華</td>
+                                        <td>全犬種</td>
+                                        <td>2025-04-26</td>
+                                        <td>下午 14:00-17:00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="alert alert-warning mt-3" role="alert">
+                                <i class="fas fa-info-circle me-2"></i>
+                                這是班表查詢的畫面範例，實際查詢功能需要串接後端資料庫
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <i class="fas fa-paw pet-paw paw-1"></i>
+        <i class="fas fa-paw pet-paw paw-2"></i>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 你可以在這裡加一些 JavaScript 讓頁面更有互動性，
+        // 例如點擊刪除按鈕時跳出確認訊息，
+        // 或是新增服務時清空表單等等。
+        // 目前只是畫面，實際的新增刪除功能需要後端配合喔！
+
+        console.log("服務項目頁面載入成功！");
+
+        // 範例：點擊刪除按鈕的事件（只是示範，實際功能要自己寫）
+        document.querySelectorAll('.btn-outline-danger').forEach(button => {
+            button.addEventListener('click', function () {
+                // 這裡可以加確認視窗，例如：
+                // if (confirm('確定要刪除這個服務項目嗎？')) {
+                //     console.log('模擬刪除服務項目...');
+                //     // 在這裡寫實際刪除的程式碼，通常是發送請求到後端
+                //     // this.closest('.list-group-item').remove(); // 刪除畫面上的項目
+                // }
+                alert('刪除功能只是個按鈕，還沒有實際作用喔！');
+            });
+        });
+
+        // 範例：提交新增表單的事件（只是示範，實際功能要自己寫）
+        document.querySelector('#serviceName').closest('form').addEventListener('submit', function (event) {
+            event.preventDefault(); // 阻止表單真的提交
+            const serviceName = document.getElementById('serviceName').value;
+            const servicePrice = document.getElementById('servicePrice').value;
+
+            if (serviceName && servicePrice) {
+                alert(`模擬新增服務：${serviceName}，價格：$${servicePrice}`);
+                // 在這裡寫實際新增的程式碼，發送資料到後端
+                // 清空表單
+                document.getElementById('serviceName').value = '';
+                document.getElementById('servicePrice').value = '';
+            } else {
+                alert('請填寫服務名稱和價格喔！');
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

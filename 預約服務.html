@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>寵物美容預約系統 | 毛孩的專業美容管家</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF7E7E;
+            --secondary-color: #FFB6B6;
+            --accent-color: #FFD1D1;
+            --dark-color: #4E4E4E;
+            --light-color: #FFF9F9;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--light-color) 0%, #f8f0f0 100%);
+            min-height: 100vh;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: none;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .card-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color) 0%, rgba(255, 255, 255, 0.5) 100%);
+        }
+
+        .card-body {
+            padding: 1.75rem;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            padding-left: 1.5rem;
+        }
+
+        .alert:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            color: #0c6b9d;
+        }
+
+        .alert-warning {
+            background-color: #fff8e6;
+            color: #b37b00;
+        }
+
+        ul {
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        h5 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(255, 126, 126, 0.2);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background-color: rgba(255, 182, 182, 0.1);
+        }
+
+        .feature-content h6 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--dark-color);
+        }
+
+        .feature-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .pet-paw {
+            position: absolute;
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .paw-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 8rem;
+            transform: rotate(15deg);
+        }
+
+        .paw-2 {
+            bottom: 15%;
+            right: 5%;
+            font-size: 10rem;
+            transform: rotate(-10deg);
+        }
+    </style>
+
+<body>
+    <!-- 導航列 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <!-- 品牌標誌 -->
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-paw me-2" style="color: #FF7E7E;"></i>
+                <span style="color: #FF7E7E;">Paw</span><span style="color: #4E4E4E;">Style</span>
+            </a>
+
+            <!-- 手機版漢堡按鈕 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 導航內容 -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> 首頁</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt me-1"></i> 預約服務</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cut me-1"></i> 服務項目</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-tie me-1"></i> 美容師</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-history me-1"></i> 歷史紀錄</a>
+                    </li>
+                </ul>
+
+                <!-- 登入/註冊區域 -->
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <a href="#" class="text-decoration-none dropdown-toggle" id="languageDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-globe me-1"></i> 繁體中文
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">繁體中文</a></li>
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">日本語</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="btn btn-outline-primary btn-sm dropdown-toggle" id="userDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> 會員登入
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt me-2"></i>登入帳號</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus me-2"></i>註冊會員</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>幫助中心</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="booking-section">
+        <main class="container mt-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold animate__animated animate__fadeInDown" style="color: var(--primary-color);">
+                    <i class="fas fa-calendar-check me-2"></i> 輕鬆預約毛孩的專屬美容時光
+                </h1>
+                <p class="lead text-muted animate__animated animate__fadeInUp animate-delay-1">
+                    選擇您需要的服務、方便的時間，為您的愛寵預約最專業的美容照顧！
+                </p>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card animate__animated animate__zoomIn animate-delay-2">
+                        <div class="card-header">
+                            <i class="fas fa-clipboard-list me-2"></i> 填寫預約資訊
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="mb-4">
+                                    <h5><i class="fas fa-cut me-2" style="color: var(--secondary-color);"></i> 選擇服務項目</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="serviceType" class="form-label">美容類型</label>
+                                            <select class="form-select" id="serviceType" required>
+                                                <option selected disabled value="">請選擇...</option>
+                                                <option value="bathing">洗澡 (短毛/長毛)</option>
+                                                <option value="full-grooming">全身美容 (含洗澡、剪毛)</option>
+                                                <option value="trimming">局部修剪</option>
+                                                <option value="spa">寵物SPA</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="petSize" class="form-label">寵物體型</label>
+                                            <select class="form-select" id="petSize" required>
+                                                <option selected disabled value="">請選擇...</option>
+                                                <option value="small">小型犬/貓</option>
+                                                <option value="medium">中型犬</option>
+                                                <option value="large">大型犬</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5><i class="fas fa-calendar-alt me-2" style="color: var(--secondary-color);"></i> 選擇預約時間</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="reservationDate" class="form-label">日期</label>
+                                            <input type="date" class="form-control" id="reservationDate" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="reservationTime" class="form-label">時間</label>
+                                            <select class="form-select" id="reservationTime" required>
+                                                <option selected disabled value="">請選擇時段...</option>
+                                                <option value="0900">09:00</option>
+                                                <option value="1000">10:00</option>
+                                                <option value="1100">11:00</option>
+                                                <option value="1300">13:00</option>
+                                                <option value="1400">14:00</option>
+                                                <option value="1500">15:00</option>
+                                                <option value="1600">16:00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5><i class="fas fa-paw me-2" style="color: var(--secondary-color);"></i> 毛孩資訊</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="petName" class="form-label">毛孩名字</label>
+                                            <input type="text" class="form-control" id="petName" placeholder="請輸入毛孩的名字" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="petBreed" class="form-label">毛孩品種</label>
+                                            <input type="text" class="form-control" id="petBreed" placeholder="例如：貴賓狗、米克斯" required>
+                                        </div>
+                                        <div class="col-12 mb-3">
+                                            <label for="petNotes" class="form-label">備註 (例如：是否有皮膚敏感、不喜歡碰觸的地方等)</label>
+                                            <textarea class="form-control" id="petNotes" rows="3" placeholder="請輸入任何需要美容師注意的事項"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <h5><i class="fas fa-user-circle me-2" style="color: var(--secondary-color);"></i> 您的聯絡資訊</h5>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ownerName" class="form-label">您的姓名</label>
+                                            <input type="text" class="form-control" id="ownerName" placeholder="請輸入您的姓名" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="ownerPhone" class="form-label">聯絡電話</label>
+                                            <input type="tel" class="form-control" id="ownerPhone" placeholder="請輸入您的手機號碼" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn btn-primary btn-lg" style="background-color: var(--primary-color); border-color: var(--primary-color);">
+                                        <i class="fas fa-paper-plane me-2"></i> 確認送出預約
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info mt-4 animate__animated animate__fadeInUp animate-delay-3" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        溫馨提示：送出預約後，我們的美容師會盡快與您聯繫確認細節。
+                    </div>
+
+                    <div class="alert alert-warning mt-3 animate__animated animate__fadeInUp animate-delay-4" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        請注意：線上預約並非最終確認，需等待專人聯繫。
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <i class="fas fa-paw pet-paw paw-1"></i>
+    <i class="fas fa-paw pet-paw paw-2"></i>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+
+</html>

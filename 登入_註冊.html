@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>寵物美容預約系統 | 毛孩的專業美容管家</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF7E7E;
+            --secondary-color: #FFB6B6;
+            --accent-color: #FFD1D1;
+            --dark-color: #4E4E4E;
+            --light-color: #FFF9F9;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--light-color) 0%, #f8f0f0 100%);
+            min-height: 100vh;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: none;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .card-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color) 0%, rgba(255, 255, 255, 0.5) 100%);
+        }
+
+        .card-body {
+            padding: 1.75rem;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            padding-left: 1.5rem;
+        }
+
+        .alert:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            color: #0c6b9d;
+        }
+
+        .alert-warning {
+            background-color: #fff8e6;
+            color: #b37b00;
+        }
+
+        ul {
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        h5 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(255, 126, 126, 0.2);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background-color: rgba(255, 182, 182, 0.1);
+        }
+
+        .feature-content h6 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--dark-color);
+        }
+
+        .feature-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .pet-paw {
+            position: absolute;
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .paw-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 8rem;
+            transform: rotate(15deg);
+        }
+
+        .paw-2 {
+            bottom: 15%;
+            right: 5%;
+            font-size: 10rem;
+            transform: rotate(-10deg);
+        }
+    </style>
+
+<body>
+
+    <!-- 導航列 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <!-- 品牌標誌 -->
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-paw me-2" style="color: #FF7E7E;"></i>
+                <span style="color: #FF7E7E;">Paw</span><span style="color: #4E4E4E;">Style</span>
+            </a>
+
+            <!-- 手機版漢堡按鈕 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 導航內容 -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> 首頁</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt me-1"></i> 預約服務</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cut me-1"></i> 服務項目</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-tie me-1"></i> 美容師</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-history me-1"></i> 歷史紀錄</a>
+                    </li>
+                </ul>
+
+                <!-- 登入/註冊區域 -->
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <a href="#" class="text-decoration-none dropdown-toggle" id="languageDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-globe me-1"></i> 繁體中文
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">繁體中文</a></li>
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">日本語</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="btn btn-outline-primary btn-sm dropdown-toggle" id="userDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> 會員登入
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt me-2"></i>登入帳號</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus me-2"></i>註冊會員</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>幫助中心</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card animate__animated animate__fadeInUp">
+                    <div class="card-header text-center">
+                        <h5>會員登入/註冊</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs mb-4" id="loginRegTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="customer-tab" data-bs-toggle="tab"
+                                    data-bs-target="#customer" type="button" role="tab" aria-controls="customer"
+                                    aria-selected="true">顧客</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="groomer-tab" data-bs-toggle="tab" data-bs-target="#groomer"
+                                    type="button" role="tab" aria-controls="groomer" aria-selected="false">美容師</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="loginRegTabContent">
+                            <div class="tab-pane fade show active" id="customer" role="tabpanel"
+                                aria-labelledby="customer-tab">
+                                <h6 class="card-title text-center mb-4">顧客請由此登入或註冊新帳號</h6>
+                                <form id="customerLoginForm">
+                                    <div class="mb-3">
+                                        <label for="customerEmail" class="form-label">電子郵件</label>
+                                        <input type="email" class="form-control" id="customerEmail"
+                                            placeholder="請輸入您的電子郵件" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="customerPassword" class="form-label">密碼</label>
+                                        <input type="password" class="form-control" id="customerPassword"
+                                            placeholder="請輸入密碼" required>
+                                    </div>
+                                    <div class="d-grid gap-2 mb-3">
+                                        <button type="submit" class="btn btn-primary">登入</button>
+                                    </div>
+                                    <div class="text-center mb-3">
+                                        <a href="#" class="text-muted">忘記密碼？</a>
+                                    </div>
+                                </form>
+                                <div class="text-center mt-4">
+                                    還沒有帳號嗎？ <a href="#" id="showCustomerRegForm">立即註冊</a>
+                                </div>
+
+                                <form id="customerRegistrationForm" style="display: none;">
+                                    <hr>
+                                    <h6 class="card-title text-center mb-4">新顧客註冊</h6>
+                                    <div class="mb-3">
+                                        <label for="regCustomerName" class="form-label">您的姓名</label>
+                                        <input type="text" class="form-control" id="regCustomerName"
+                                            placeholder="請輸入您的姓名" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="regCustomerEmail" class="form-label">電子郵件</label>
+                                        <input type="email" class="form-control" id="regCustomerEmail"
+                                            placeholder="請輸入您的電子郵件" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="regCustomerPassword" class="form-label">設定密碼</label>
+                                        <input type="password" class="form-control" id="regCustomerPassword"
+                                            placeholder="請設定密碼" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="regCustomerPasswordConfirm" class="form-label">確認密碼</label>
+                                        <input type="password" class="form-control" id="regCustomerPasswordConfirm"
+                                            placeholder="請再次輸入密碼" required>
+                                    </div>
+                                    <div class="d-grid gap-2 mb-3">
+                                        <button type="submit" class="btn btn-success">註冊</button>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        已經有帳號了？ <a href="#" id="showCustomerLoginForm">返回登入</a>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade" id="groomer" role="tabpanel" aria-labelledby="groomer-tab">
+                                <h6 class="card-title text-center mb-4">美容師請由此登入</h6>
+                                <form id="groomerLoginForm">
+                                    <div class="mb-3">
+                                        <label for="groomerEmail" class="form-label">美容師帳號 (通常是電子郵件或員工編號)</label>
+                                        <input type="text" class="form-control" id="groomerEmail" placeholder="請輸入您的帳號"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="groomerPassword" class="form-label">密碼</label>
+                                        <input type="password" class="form-control" id="groomerPassword"
+                                            placeholder="請輸入密碼" required>
+                                    </div>
+                                    <div class="d-grid gap-2 mb-3">
+                                        <button type="submit" class="btn btn-primary">登入</button>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="#" class="text-muted">忘記密碼？</a>
+                                    </div>
+                                </form>
+                                <div class="text-center mt-4 text-muted">
+                                    美容師註冊請洽管理人員。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pet-paw paw-1"><i class="fas fa-paw"></i></div>
+    <div class="pet-paw paw-2"><i class="fas fa-paw"></i></div>
+
+    <script>
+        // 這個小小的 JavaScript 是用來控制顧客登入和註冊表單的切換顯示
+        document.getElementById('showCustomerRegForm').addEventListener('click', function (e) {
+            e.preventDefault(); // 阻止連結的預設行為 (跳轉頁面)
+            document.getElementById('customerLoginForm').style.display = 'none'; // 隱藏登入表單
+            document.getElementById('customerRegistrationForm').style.display = 'block'; // 顯示註冊表單
+        });
+
+        document.getElementById('showCustomerLoginForm').addEventListener('click', function (e) {
+            e.preventDefault(); // 阻止連結的預設行為 (跳轉頁面)
+            document.getElementById('customerRegistrationForm').style.display = 'none'; // 隱藏註冊表單
+            document.getElementById('customerLoginForm').style.display = 'block'; // 顯示登入表單
+        });
+
+        // 這裡放你的表單送出處理邏輯 (例如：用 fetch 或 XMLHttpRequest 把資料送到後端)
+        // 現在只是印出一些訊息到瀏覽器的開發者工具主控台 (Console)
+        document.getElementById('customerLoginForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // 阻止表單的預設行為 (重新整理頁面)
+            console.log('顧客登入表單已送出');
+            // 在這裡加入你的登入處理程式碼
+            // 例如：const email = document.getElementById('customerEmail').value;
+            // const password = document.getElementById('customerPassword').value;
+            // 使用 fetch() 或其他方式將 email 和 password 送到後端驗證
+        });
+
+        document.getElementById('customerRegistrationForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // 阻止表單的預設行為 (重新整理頁面)
+            console.log('顧客註冊表單已送出');
+            // 在這裡加入你的註冊處理程式碼
+            // 例如：const name = document.getElementById('regCustomerName').value;
+            // const email = document.getElementById('regCustomerEmail').value;
+            // const password = document.getElementById('regCustomerPassword').value;
+            // const passwordConfirm = document.getElementById('regCustomerPasswordConfirm').value;
+
+            // 可以在這裡做一些基本的客戶端驗證，例如檢查密碼是否一致
+            // if (password !== passwordConfirm) {
+            //     alert('密碼不一致，請重新輸入！');
+            //     return; // 如果密碼不一致，就停止送出表單
+            // }
+
+            // 使用 fetch() 或其他方式將註冊資料送到後端
+        });
+
+        document.getElementById('groomerLoginForm').addEventListener('submit', function (e) {
+            e.preventDefault(); // 阻止表單的預設行為 (重新整理頁面)
+            console.log('美容師登入表單已送出');
+            // 在這裡加入你的美容師登入處理程式碼
+            // 例如：const email = document.getElementById('groomerEmail').value;
+            // const password = document.getElementById('groomerPassword').value;
+            // 使用 fetch() 或其他方式將帳號和密碼送到後端驗證
+        });
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>

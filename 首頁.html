@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>寵物美容預約系統 | 毛孩的專業美容管家</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF7E7E;
+            --secondary-color: #FFB6B6;
+            --accent-color: #FFD1D1;
+            --dark-color: #4E4E4E;
+            --light-color: #FFF9F9;
+        }
+
+        body {
+            font-family: 'Microsoft JhengHei', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, var(--light-color) 0%, #f8f0f0 100%);
+            min-height: 100vh;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            margin-bottom: 25px;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: none;
+            padding: 1.25rem 1.5rem;
+            position: relative;
+        }
+
+        .card-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color) 0%, rgba(255, 255, 255, 0.5) 100%);
+        }
+
+        .card-body {
+            padding: 1.75rem;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            padding-left: 1.5rem;
+        }
+
+        .alert:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 6px;
+            background: currentColor;
+            opacity: 0.3;
+        }
+
+        .alert-info {
+            background-color: #f0f9ff;
+            color: #0c6b9d;
+        }
+
+        .alert-warning {
+            background-color: #fff8e6;
+            color: #b37b00;
+        }
+
+        ul {
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+        }
+
+        h5 {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(255, 126, 126, 0.2);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background-color: rgba(255, 182, 182, 0.1);
+        }
+
+        .feature-content h6 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--dark-color);
+        }
+
+        .feature-content p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .animate-delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .animate-delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .pet-paw {
+            position: absolute;
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .paw-1 {
+            top: 10%;
+            left: 5%;
+            font-size: 8rem;
+            transform: rotate(15deg);
+        }
+
+        .paw-2 {
+            bottom: 15%;
+            right: 5%;
+            font-size: 10rem;
+            transform: rotate(-10deg);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 導航列 -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <!-- 品牌標誌 -->
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fas fa-paw me-2" style="color: #FF7E7E;"></i>
+                <span style="color: #FF7E7E;">Paw</span><span style="color: #4E4E4E;">Style</span>
+            </a>
+
+            <!-- 手機版漢堡按鈕 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- 導航內容 -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> 首頁</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-calendar-alt me-1"></i> 預約服務</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-cut me-1"></i> 服務項目</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-tie me-1"></i> 美容師</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-history me-1"></i> 歷史紀錄</a>
+                    </li>
+                </ul>
+
+                <!-- 登入/註冊區域 -->
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3">
+                        <a href="#" class="text-decoration-none dropdown-toggle" id="languageDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-globe me-1"></i> 繁體中文
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">繁體中文</a></li>
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">日本語</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="btn btn-outline-primary btn-sm dropdown-toggle" id="userDropdown"
+                            data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i> 會員登入
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-sign-in-alt me-2"></i>登入帳號</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus me-2"></i>註冊會員</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-question-circle me-2"></i>幫助中心</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container py-5">
+        <div class="row">
+            <!-- 歡迎卡片 -->
+            <div class="col-lg-6 mb-4 animate__animated animate__fadeInLeft">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5><i class="fas fa-paw me-2"></i>歡迎來到寵物美容預約系統</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="welcome-text">我們提供專業的寵物美容服務，讓您的毛小孩擁有最佳的照顧體驗。從基礎清潔到專業造型，我們用心呵護每一位小客人。</p>
+
+                        <div class="feature-item animate__animated animate__fadeIn animate-delay-1">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>會員註冊與管理</h6>
+                                <p>簡單註冊，輕鬆管理您的寵物資料與預約記錄</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item animate__animated animate__fadeIn animate-delay-2">
+                            <div class="feature-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>線上預約服務</h6>
+                                <p>24小時隨時預約，選擇最適合您與寵物的時間</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h6>美容師班表查詢</h6>
+                                <p>查看美容師可用時段，選擇您信任的美容師</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最新公告卡片 -->
+            <div class="col-lg-6 mb-4 animate__animated animate__fadeInRight">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5><i class="fas fa-bullhorn me-2"></i>最新公告</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info animate__animated animate__fadeIn">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle me-3 fs-4"></i>
+                                <div>
+                                    <strong class="d-block">系統更新通知</strong>
+                                    <span>新增美容師班表提交功能，美容師可隨時更新可預約時段</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-warning animate__animated animate__fadeIn animate-delay-1">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-gift me-3 fs-4"></i>
+                                <div>
+                                    <strong class="d-block">限時優惠活動</strong>
+                                    <span>本月儲值金加值享5%回饋，最高可獲得$500回饋金</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top">
+                            <h6><i class="fas fa-star me-2 text-warning"></i>本月推薦服務</h6>
+                            <div class="d-flex align-items-center mt-3">
+                                <img src="https://via.placeholder.com/80" alt="寵物SPA" class="rounded-circle me-3"
+                                    style="width: 60px; height: 60px; object-fit: cover;">
+                                <div>
+                                    <strong>寵物精油SPA護理</strong>
+                                    <p class="mb-0 text-muted small">使用天然精油，舒緩寵物壓力與皮膚問題</p>
+                                </div>
+                                <span class="ms-auto badge bg-danger">熱門</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 裝飾元素 -->
+    <i class="fas fa-paw pet-paw paw-1"></i>
+    <i class="fas fa-paw pet-paw paw-2"></i>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 添加滾動動畫效果
+        document.addEventListener('DOMContentLoaded', function () {
+            const animateElements = document.querySelectorAll('.animate__animated');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add(entry.target.dataset.animate);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+
+</html>
